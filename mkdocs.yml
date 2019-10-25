@@ -1,0 +1,16 @@
+site_name: D-Land
+
+nav:
+  - Home: index.md
+  - Tutorials:
+    - Übersicht: tutorials/index.md
+    - Grundlagen:
+      - Übersicht: tutorials/grundlagen/index.md
+      - Installation DMD Kompiler auf Windows: tutorials/grundlagen/installation-dmd-kompiler-auf-windows.md
+      - Installation LDC auf Windows Subsystem für Linux: tutorials/grundlagen/installation-ldc-auf-windows-subsystem-fuer-linux.md
+    - Cloud:
+      - Übersicht: tutorials/cloud/index.md
+      - Native AWS Elastic Beanstalk Applikationen: tutorials/cloud/native-aws-beanstalk-applikationen.md
+  - Über: about.md
+
+theme: cinder
