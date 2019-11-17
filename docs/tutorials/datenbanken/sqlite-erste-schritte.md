@@ -4,7 +4,7 @@ SQLite ist eine schlanke und kostenlose Datenbank, die dennoch für die meisten 
 Lege einen neuen Ordner an und nenne ihn z.B. `sqlitedemo1`.
 
 Auf der Seite [https://www.sqlite.org/download.html](https://www.sqlite.org/download.html) findest du unter der
-Überschrift `Precompiled Binaries for Windows` ein Zip Archiv, dessen Namen mit `sqlite-dll-win32-x86-` beginnt,
+Überschrift `Precompiled Binaries for Windows` ein Zip Archiv, dessen Namen mit `sqlite-dll-win64-x64-` beginnt,
 gefolgt von der aktuellen Version. Lade dieses Zip und kopiere die DLL Datei aus dem Archiv in den Ordner `sqlitedemo1`.
 
 Für den Zugriff auf die Funktionen der SQLite DLL benötigst du eine statische Import Bibliothek.
