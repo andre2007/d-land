@@ -11,6 +11,9 @@ nav:
     - Cloud:
       - Übersicht: tutorials/cloud/index.md
       - Native AWS Elastic Beanstalk Applikationen: tutorials/cloud/native-aws-beanstalk-applikationen.md
+    - Gui:
+      - Übersicht: tutorials/gui/index.md
+      - HTML5 Anwendungen mit GTK3 schreiben: tutorials/gui/html5-anwendungen-mit-gtk3-schreiben.md
   - Über: about.md
 
 theme: cinder
