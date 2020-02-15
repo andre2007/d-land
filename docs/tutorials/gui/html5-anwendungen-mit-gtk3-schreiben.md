@@ -10,6 +10,7 @@ die GTK3 Anwendung in einem docker container laufen.
 Erstelle eine Datei `app.d` mit folgendem Inhalt:
 
 ```d
+iimport core.runtime : Runtime;
 import std.algorithm, std.array, std.conv;
 import gtk;
 
@@ -30,17 +31,14 @@ void activate(GtkApplication* app, gpointer user_data)
   gtk_widget_show_all(window);
 }
 
-int main(string[] args)
+int main()
 {
-  auto argarr = args.map!(a=>(a.dup ~ '\0').ptr).array;
-  int argc = to!(int)(argarr.length);
-  auto argv = argarr.ptr;
-  
   GtkApplication* app;
   int status;
   app = gtk_application_new("org.gtk.example", G_APPLICATION_FLAGS_NONE);
   g_signal_connect_object(app, "activate", cast(GCallback) &activate, NULL, G_CONNECT_SWAPPED);
-  status = g_application_run(cast(GApplication*) app, argc, argv);
+  status = g_application_run(cast(GApplication*) app, Runtime.cArgs.argc, Runtime.cArgs.argv);
+  
   g_object_unref(app);
   return status;
 }
@@ -58,7 +56,7 @@ Erstelle eine Datei `gtk.dpp` mit diesem Inhalt:
 
 Das Modul `gtk.dpp` ermöglicht den Zugriff auf die C header Dateien von GTK3.
 
-Erstelle eine Datei `dockerfile` mit diesem Inhalt:
+Erstelle eine Datei `Dockerfile` mit diesem Inhalt:
 
 ```docker
 FROM dlang2/ldc-ubuntu:1.19.0 as base
