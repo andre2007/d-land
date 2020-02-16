@@ -17,3 +17,6 @@ nav:
   - Über: about.md
 
 theme: cinder
+
+markdown_extensions:
+  - codehilite
