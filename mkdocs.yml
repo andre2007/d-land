@@ -8,9 +8,13 @@ nav:
       - Übersicht: tutorials/grundlagen/index.md
       - Installation DMD Kompiler auf Windows: tutorials/grundlagen/installation-dmd-kompiler-auf-windows.md
       - Installation LDC auf Windows Subsystem für Linux: tutorials/grundlagen/installation-ldc-auf-windows-subsystem-fuer-linux.md
+      - Coff Import Bibliotheken erstellen: tutorials/grundlagen/coff-import-bibliotheken-erstellen.md
     - Cloud:
       - Übersicht: tutorials/cloud/index.md
       - Native AWS Elastic Beanstalk Applikationen: tutorials/cloud/native-aws-beanstalk-applikationen.md
+    - Datenbanken:
+      - Übersicht: tutorials/datenbanken/index.md
+      - "SQLite: Erste Schritte": tutorials/datenbanken/sqlite-erste-schritte.md
     - Gui:
       - Übersicht: tutorials/gui/index.md
       - HTML5 Anwendungen mit GTK3 schreiben: tutorials/gui/html5-anwendungen-mit-gtk3-schreiben.md
