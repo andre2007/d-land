@@ -20,8 +20,8 @@ pip install --upgrade pip
 pip install -r ./requirements.txt
 mkdocs build
 find . -mindepth 1 ! -regex '^./site\(/.*\)?' -delete
-mv ./site/ ./
-rm ./site
+mv ./site/* ./
+rm -r ./site
 git add .
 
 git commit -m "updated GitHub Pages"
