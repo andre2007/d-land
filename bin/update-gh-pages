@@ -19,7 +19,10 @@ git rebase "${remote_name}/${main_branch}"
 pip install --upgrade pip
 pip install -r ./requirements.txt
 mkdocs build
-git add "$build_dir"
+find . -mindepth 1 ! -regex '^./site\(/.*\)?' -delete
+mv ./site/ ./
+rm ./site
+git add .
 
 git commit -m "updated GitHub Pages"
 if [ $? -ne 0 ]; then
