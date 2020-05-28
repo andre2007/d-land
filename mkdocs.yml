@@ -1,4 +1,18 @@
 site_name: D-Land
+site_url: http://d-land.sepany.de/
+repo_url: https://github.com/andre2007/d-land/
+site_author: André Pany
+site_description: Tutorials und mehr für die Programmiersprache D
+copyright: André Pany
+
+theme:
+  name: cinder
+  colorscheme: github
+  highlightjs: true
+  hljs_languages:
+    - bash
+    - d
+    - dockerfile
 
 nav:
   - Home: index.md
@@ -12,6 +26,7 @@ nav:
     - Cloud:
       - Übersicht: tutorials/cloud/index.md
       - Native AWS Elastic Beanstalk Applikationen: tutorials/cloud/native-aws-beanstalk-applikationen.md
+      - Sichere Docker images für cloud Anwendungen erstellen: tutorials/cloud/sichere-docker-images-fuer-cloud-anwendungen-erstellen.md
     - Datenbanken:
       - Übersicht: tutorials/datenbanken/index.md
       - "SQLite: Erste Schritte": tutorials/datenbanken/sqlite-erste-schritte.md
@@ -19,8 +34,6 @@ nav:
       - Übersicht: tutorials/gui/index.md
       - HTML5 Anwendungen mit GTK3 schreiben: tutorials/gui/html5-anwendungen-mit-gtk3-schreiben.md
   - Über: about.md
-
-theme: cinder
 
 markdown_extensions:
   - codehilite
