@@ -19,6 +19,7 @@ git rebase "${remote_name}/${main_branch}"
 pip install --upgrade pip
 pip install -r ./requirements.txt
 mkdocs build
+mv ./.git ./site/
 find . -mindepth 1 ! -regex '^./site\(/.*\)?' -delete
 mv ./site/* ./
 rm -r ./site
