@@ -19,7 +19,7 @@ git rebase "${remote_name}/${main_branch}"
 pip install --upgrade pip
 pip install -r ./requirements.txt
 mkdocs build -d "$build_dir"
-find -maxdepth 1 ! -name .git ! -name "$build_dir" ! -name . -exec rm -rv {} \;
+find -maxdepth 1 ! -name .git ! -name CNAME ! -name "$build_dir" ! -name . -exec rm -rv {} \;
 mv ./"$build_dir"/* ./
 rm -r "$build_dir"
 git add .
