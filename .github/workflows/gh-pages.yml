@@ -21,3 +21,4 @@ jobs:
     - run: ./bin/update-gh-pages
       env:
         DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+
