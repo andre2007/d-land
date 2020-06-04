@@ -9,7 +9,7 @@ die Gefahr auf einen erfolgreichen Angriff.
 Ein Docker image sollte keine interaktiven tools wie z.B. `bash` enthalten,
 sondern nur die Komponenten, die für den Betrieb unverzichtbar sind.
 Durch die Verwendung des Docker `scratch` image, wird genau dieses Ziel erreicht.
-Diese image enthält ein minimales Linux System ohne jegliche weitere Komponenten.
+Das `scratch` image enthält ein minimales Linux System ohne jegliche weitere Komponenten.
 Dieses Tutorial zeigt anhand einer http server Anwendung,
 wie ein sicheres Docker image für den cloud Betrieb erstellt werden kann. 
 
@@ -92,3 +92,39 @@ docker run -it --rm -p 8080:8080 sample
 ```
 
 Öffne einen webbrowser. Der http server ist unter der Adresse [http://localhost:8080](http://localhost:8080) erreichbar.
+
+# Alpine als Basis
+
+Im vorrigen Beispiel basierte der stage `base` auf der Linux Distribution `Ubuntu`.
+Statt dessen kann aber auch eine andere Linux Distribution, wie z.B. `Alpine` genommen werden.
+
+An dem Dockerfile ändern sich nur Kleinigkeiten. Die Paketverwaltung hat einen anderen Namen
+und auch die Pakete selbst heißen anders. Auch muss der Benutzer `www-data` und die dazu gehörige
+Gruppe `www-data` angelegt werden.
+
+``` Dockerfile
+FROM alpine:3.12 as base
+
+RUN apk add --update alpine-sdk ldc dub openssl-dev zlib-dev
+
+COPY app.d /tmp
+RUN dub build --single /tmp/app.d
+RUN mkdir -p /dist/opt/ && cp /tmp/app /dist/opt/
+
+WORKDIR /dist
+RUN { ldd /dist/opt/app; } | tr -s '[:blank:]' '\n' | grep '^/' | \
+    xargs -I % sh -c 'mkdir -p $(dirname ./%); cp % ./%;'
+
+RUN set -x ; \
+  addgroup -g 82 -S www-data ; \
+  adduser -u 82 -D -S -G www-data www-data && exit 0 ; exit 1
+
+FROM scratch as final
+COPY --chown=0:0 --from=base /dist /
+COPY --from=base /etc/passwd /etc/passwd
+COPY --from=base /etc/group /etc/group
+
+USER www-data
+ENV LD_LIBRARY_PATH=/lib/x86_64-linux-gnu:/lib64:/usr/lib/x86_64-linux-gnu
+CMD ["/opt/app"]
+```
