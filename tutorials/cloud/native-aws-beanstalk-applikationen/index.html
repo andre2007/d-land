@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tutorials und mehr für die Programmiersprache D">
+    <meta name="author" content="André Pany">
+    <link rel="canonical" href="http://d-land.sepany.de/tutorials/cloud/native-aws-beanstalk-applikationen/">
+    <link rel="shortcut icon" href="../../../img/favicon.ico">
+
+    
+    <title>Native AWS Elastic Beanstalk Applikationen - D-Land</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../../../css/base.min.css" rel="stylesheet">
+    <link href="../../../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css">
+        
+    
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="../../..">D-Land</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../../..">Home</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tutorials <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../">Übersicht</a>
+</li>
+
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">Grundlagen</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../../grundlagen/">Übersicht</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../grundlagen/installation-dmd-kompiler-auf-windows/">Installation DMD Kompiler auf Windows</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../grundlagen/installation-ldc-auf-windows-subsystem-fuer-linux/">Installation LDC auf Windows Subsystem für Linux</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../grundlagen/coff-import-bibliotheken-erstellen/">Coff Import Bibliotheken erstellen</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">Cloud</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../">Übersicht</a>
+</li>
+
+        
+            
+<li class="active">
+    <a href="./">Native AWS Elastic Beanstalk Applikationen</a>
+</li>
+
+        
+            
+<li >
+    <a href="../sichere-docker-images-fuer-cloud-anwendungen-erstellen/">Sichere Docker images für cloud Anwendungen erstellen</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">Datenbanken</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../../datenbanken/">Übersicht</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../datenbanken/sqlite-erste-schritte/">SQLite: Erste Schritte</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">Gui</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../../gui/">Übersicht</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../gui/html5-anwendungen-mit-gtk3-schreiben/">HTML5 Anwendungen mit GTK3 schreiben</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../../../about/">Über</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="next" href="../sichere-docker-images-fuer-cloud-anwendungen-erstellen/">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/andre2007/d-land/edit/master/docs/tutorials/cloud/native-aws-beanstalk-applikationen.md"><i class="fab fa-github"></i> Edit on GitHub</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#native-aws-elastic-beanstalk-applikationen">Native AWS Elastic Beanstalk Applikationen</a></li>
+            <li class="second-level"><a href="#webserver-umgebung">Webserver-Umgebung</a></li>
+                
+            <li class="second-level"><a href="#worker-umgebung">Worker-Umgebung</a></li>
+                
+            <li class="second-level"><a href="#ebextensions">.ebextensions</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="native-aws-elastic-beanstalk-applikationen">Native AWS Elastic Beanstalk Applikationen</h1>
+<p>Es gibt 2 Möglichkeiten in D geschriebene Anwendungen auf AWS Elastic Beanstalk zu verwenden.
+Eine Möglichkeit ist die D Anwendung als Docker Container in Elastic Beanstalk auszuführen.
+Die zweite Möglichkeit ist als Platform <code>Go</code> anzugeben und die D Anwendung innerhalb eines
+ZIP Archivs an Elastic Beanstalk zu übergeben.
+Dieses Tutorial beschreibt die Verwendung der <code>Go</code> Platform.</p>
+<p>Voraussetzung für dieses Tutorial ist die Installation von
+<a href="../../grundlagen/installation-ldc-auf-windows-subsystem-fuer-linux/">LDC auf WSL</a>.</p>
+<h2 id="webserver-umgebung">Webserver-Umgebung</h2>
+<p>Erstelle eine neue Datei <code>application.d</code> mit folgendem Inhalt:</p>
+<div class="codehilite"><pre><span></span><code><span class="cm">/+ dub.sdl:</span>
+<span class="cm">    name &quot;application&quot;</span>
+<span class="cm">    dependency &quot;vibe-d:http&quot; version=&quot;0.8.6-alpha.2&quot;</span>
+<span class="cm">    dependency &quot;vibe-d:tls&quot; version=&quot;*&quot;</span>
+<span class="cm">    subConfiguration &quot;vibe-d:tls&quot; &quot;notls&quot;</span>
+<span class="cm">+/</span>
+
+<span class="k">import</span> <span class="n">vibe</span><span class="p">.</span><span class="n">core</span><span class="p">.</span><span class="n">core</span> <span class="p">:</span> <span class="n">runApplication</span><span class="p">;</span>
+<span class="k">import</span> <span class="n">vibe</span><span class="p">.</span><span class="n">http</span><span class="p">.</span><span class="n">server</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">listenHTTP</span><span class="p">(</span><span class="s">&quot;:5000&quot;</span><span class="p">,</span> <span class="p">&amp;</span><span class="n">handleRequest</span><span class="p">);</span>
+    <span class="n">runApplication</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">handleRequest</span><span class="p">(</span><span class="n">HTTPServerRequest</span> <span class="n">req</span><span class="p">,</span> <span class="n">HTTPServerResponse</span> <span class="n">res</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">req</span><span class="p">.</span><span class="n">path</span> <span class="p">==</span> <span class="s">&quot;/&quot;</span><span class="p">)</span>
+        <span class="n">res</span><span class="p">.</span><span class="n">writeBody</span><span class="p">(</span><span class="s">&quot;Hello, World!&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>Mit Hilfe von <a href="http://vibed.org/">vibe.d</a> wird ein HTTP Server auf dem Port <code>5000</code> gestartet.
+AWS Elastic Beanstalk erwartet eine unter Linux ausführbare Datei.
+Starte eine Windows Kommandozeile und gib folgenden Befehl ein.</p>
+<div class="codehilite"><pre><span></span><code>wsl dub build --single application.d -b plain
+</code></pre></div>
+
+
+<p>Eine unter Linux ausführbare Datei mit dem Namen <code>application</code> wurde erstellt.
+Führe diesen Befehl aus um deine Applikation in eine Zip Datei zu packen:</p>
+<div class="codehilite"><pre><span></span><code><span class="err">wsl zip -r app.zip ./application</span>
+</code></pre></div>
+
+
+<p>Dadurch dass das Linux Tool <code>zip</code> verwendet wird, behält die Datei <code>application</code> auch die Information,
+dass es sich um eine ausführbare Datei handelt.</p>
+<p>Auf AWS Elastic Beanstalk kannst du nun eine neue Webserver-Umgebung anlegen,
+als Platform <code>Go</code> wählen und die Datei <code>app.zip</code> auswählen.</p>
+<h2 id="worker-umgebung">Worker-Umgebung</h2>
+<p>AWS gibt in seiner aktuellen Dokumentation an, dass SQS Nachrichten als HTTP requests
+an Port <code>80</code> der Server Anwendungen geschickt werden.
+Für die Go Platform ist das nicht korrekt. Hier muss die Server Anwendung,
+wie auch bei der Webserver-Umgebung, auf Port <code>5000</code> eingestellt sein.</p>
+<p>In diesem Beispiel benutze ich die HTTP Server Komponente
+<a href="https://code.dlang.org/packages/arsd-official">arsd-official:cgi</a>.</p>
+<div class="codehilite"><pre><span></span><code><span class="cm">/+ dub.sdl:</span>
+<span class="cm">    name &quot;application&quot;</span>
+<span class="cm">    dependency &quot;arsd-official:cgi&quot; version=&quot;4.0.1&quot;</span>
+<span class="cm">    subConfiguration &quot;arsd-official:cgi&quot; &quot;embedded_httpd&quot;</span>
+<span class="cm">+/</span>
+
+<span class="k">import</span> <span class="n">arsd</span><span class="p">.</span><span class="n">cgi</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="n">main</span><span class="p">()</span> 
+<span class="p">{</span>
+    <span class="n">cgiMainImpl</span><span class="p">!(</span><span class="n">handle</span><span class="p">,</span> <span class="n">Cgi</span><span class="p">,</span> <span class="n">defaultMaxContentLength</span><span class="p">)([</span><span class="s">&quot;--port&quot;</span><span class="p">,</span> <span class="s">&quot;5000&quot;</span><span class="p">]);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">handle</span><span class="p">(</span><span class="n">Cgi</span> <span class="n">cgi</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">cgi</span><span class="p">.</span><span class="n">requestMethod</span> <span class="p">==</span> <span class="n">cgi</span><span class="p">.</span><span class="n">RequestMethod</span><span class="p">.</span><span class="n">POST</span> <span class="p">&amp;&amp;</span> <span class="n">cgi</span><span class="p">.</span><span class="n">requestUri</span> <span class="p">==</span> <span class="s">&quot;/&quot;</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nb">string</span> <span class="n">json</span> <span class="p">=</span> <span class="n">cgi</span><span class="p">.</span><span class="n">postJson</span><span class="p">;</span>
+        <span class="n">cgi</span><span class="p">.</span><span class="n">setResponseStatus</span><span class="p">(</span><span class="s">&quot;200 OK&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="n">cgi</span><span class="p">.</span><span class="n">setResponseStatus</span><span class="p">(</span><span class="s">&quot;404 File Not Found&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>Auch hier wird wieder ein HTTP Server auf Port <code>5000</code> gestartet.
+Den Inhalt der SQS Message wird in der Variable <code>json</code> gespeichert
+und kann weiter ausgewertet werden.</p>
+<p>Genauso wie bei der Webserver Elastic Beanstalk Anwendung muss die Applikation
+wieder unter Linux kompiliert und in eine Zip Datei gepackt werden.</p>
+<h2 id="ebextensions">.ebextensions</h2>
+<p>Über Konfigurationsdateien in einem Ordner <code>.ebextensions</code> können Startparameter
+für die AWS Elastic Beanstalk Applikation gesetzt werden.</p>
+<p>Falls z.B. die Anwendung unter Windows in ein Zip Archiv gepackt wurde,
+geht das Executable Kennzeichen verloren. Dieses Kennzeichen kann nachträglich
+wieder gesetzt werden, wie im folgenden Beispiel beschrieben.</p>
+<p>Erstelle einen Ordner mit dem Namen <code>.ebextensions</code> und eine Datei <code>set_perms.config</code>
+innerhalb dieses Ordners mit folgendem Inhalt:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">container_commands</span><span class="o">:</span>
+  <span class="n">set_perms</span><span class="o">:</span>
+    <span class="n">command</span><span class="o">:</span> <span class="s2">&quot;chmod 777 application&quot;</span>
+</code></pre></div>
+
+
+<p>Füge den Ordner <code>.ebextensions</code> dem Zip Archiv hinzu.</p></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>André Pany</small><br>
+        
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+        </p>
+
+        
+        
+    </footer>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../../../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/bash.min.js"></script>
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/d.min.js"></script>
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/dockerfile.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = "../../.."</script>
+    
+    <script src="../../../js/base.js"></script>
+    <script src="../../../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

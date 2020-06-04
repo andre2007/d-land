@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tutorials und mehr für die Programmiersprache D">
+    <meta name="author" content="André Pany">
+    <link rel="canonical" href="http://d-land.sepany.de/tutorials/cloud/sichere-docker-images-fuer-cloud-anwendungen-erstellen/">
+    <link rel="shortcut icon" href="../../../img/favicon.ico">
+
+    
+    <title>Sichere Docker images für cloud Anwendungen erstellen - D-Land</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../../../css/base.min.css" rel="stylesheet">
+    <link href="../../../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css">
+        
+    
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="../../..">D-Land</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../../..">Home</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tutorials <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../">Übersicht</a>
+</li>
+
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">Grundlagen</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../../grundlagen/">Übersicht</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../grundlagen/installation-dmd-kompiler-auf-windows/">Installation DMD Kompiler auf Windows</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../grundlagen/installation-ldc-auf-windows-subsystem-fuer-linux/">Installation LDC auf Windows Subsystem für Linux</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../grundlagen/coff-import-bibliotheken-erstellen/">Coff Import Bibliotheken erstellen</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">Cloud</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../">Übersicht</a>
+</li>
+
+        
+            
+<li >
+    <a href="../native-aws-beanstalk-applikationen/">Native AWS Elastic Beanstalk Applikationen</a>
+</li>
+
+        
+            
+<li class="active">
+    <a href="./">Sichere Docker images für cloud Anwendungen erstellen</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">Datenbanken</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../../datenbanken/">Übersicht</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../datenbanken/sqlite-erste-schritte/">SQLite: Erste Schritte</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">Gui</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../../gui/">Übersicht</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../gui/html5-anwendungen-mit-gtk3-schreiben/">HTML5 Anwendungen mit GTK3 schreiben</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../../../about/">Über</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../native-aws-beanstalk-applikationen/">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="next" href="../../datenbanken/">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/andre2007/d-land/edit/master/docs/tutorials/cloud/sichere-docker-images-fuer-cloud-anwendungen-erstellen.md"><i class="fab fa-github"></i> Edit on GitHub</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#sichere-docker-images-fur-cloud-anwendungen-erstellen">Sichere Docker images für cloud Anwendungen erstellen</a></li>
+        <li class="first-level "><a href="#alpine-als-basis">Alpine als Basis</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="sichere-docker-images-fur-cloud-anwendungen-erstellen">Sichere Docker images für cloud Anwendungen erstellen</h1>
+<p>Docker images können leicht mehrere hundert MB groß werden.
+Während die Größe bei der Übertragung nur störend ist, stellen
+die vielen unnötigen Komponenten ein Sicherheitsproblem dar.
+Jede zusätzliche Komponente erhöht die Angriffsfläche und damit
+die Gefahr auf einen erfolgreichen Angriff.</p>
+<p>Ein Docker image sollte keine interaktiven tools wie z.B. <code>bash</code> enthalten,
+sondern nur die Komponenten, die für den Betrieb unverzichtbar sind.
+Durch die Verwendung des Docker <code>scratch</code> image, wird genau dieses Ziel erreicht.
+Das <code>scratch</code> image enthält ein minimales Linux System ohne jegliche weitere Komponenten.
+Dieses Tutorial zeigt anhand einer http server Anwendung,
+wie ein sicheres Docker image für den cloud Betrieb erstellt werden kann. </p>
+<p>Erstelle eine Datei <code>app.d</code> mit diesem Inhalt:</p>
+<div class="codehilite"><pre><span></span><code><span class="cm">/+ dub.sdl:</span>
+<span class="cm">    name &quot;app&quot;</span>
+<span class="cm">    dependency &quot;vibe-d:http&quot; version=&quot;0.8.6&quot;</span>
+<span class="cm">    dependency &quot;vibe-d:tls&quot; version=&quot;*&quot;</span>
+<span class="cm">    subConfiguration &quot;vibe-d:tls&quot; &quot;openssl-1.1&quot;</span>
+<span class="cm">+/</span>
+
+<span class="k">import</span> <span class="n">std</span><span class="p">.</span><span class="n">process</span> <span class="p">:</span> <span class="n">environment</span><span class="p">;</span>
+<span class="k">import</span> <span class="n">vibe</span><span class="p">.</span><span class="n">core</span><span class="p">.</span><span class="n">core</span> <span class="p">:</span> <span class="n">runApplication</span><span class="p">;</span>
+<span class="k">import</span> <span class="n">vibe</span><span class="p">.</span><span class="n">http</span><span class="p">.</span><span class="n">server</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="n">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nb">string</span> <span class="n">port</span> <span class="p">=</span> <span class="n">environment</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;PORT&quot;</span><span class="p">,</span> <span class="s">&quot;8080&quot;</span><span class="p">);</span>
+    <span class="n">listenHTTP</span><span class="p">(</span><span class="s">&quot;0.0.0.0:&quot;</span> <span class="p">~</span> <span class="n">port</span><span class="p">,</span> <span class="p">&amp;</span><span class="n">handleRequest</span><span class="p">);</span>
+    <span class="n">runApplication</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="k">private</span> <span class="kt">void</span> <span class="n">handleRequest</span><span class="p">(</span><span class="n">HTTPServerRequest</span> <span class="n">req</span><span class="p">,</span> <span class="n">HTTPServerResponse</span> <span class="n">res</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">req</span><span class="p">.</span><span class="n">path</span> <span class="p">==</span> <span class="s">&quot;/&quot;</span><span class="p">)</span>
+        <span class="n">res</span><span class="p">.</span><span class="n">writeBody</span><span class="p">(</span><span class="s">&quot;Hello, World!&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>Die Umgebungsvariable <code>PORT</code> wird ausgelesen und der http Server für diesen
+Port gestartet. Falls die Umgebungsvariable nicht definiert ist, wird als
+Port <code>8080</code> verwendet.</p>
+<p>Erstelle eine Datei <code>Dockerfile</code> mit diesem Inhalt:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">FROM</span> <span class="s">ubuntu:focal</span> <span class="k">as</span> <span class="s">base</span>
+
+<span class="k">RUN</span> apt-get update <span class="o">&amp;&amp;</span> apt-get upgrade -y <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> apt-get install --no-install-recommends -y build-essential ldc dub zlib1g-dev libssl-dev
+
+<span class="k">COPY</span> app.d /tmp
+<span class="k">RUN</span> dub build --single /tmp/app.d
+<span class="k">RUN</span> mkdir -p /dist/opt/ <span class="o">&amp;&amp;</span> cp /tmp/app /dist/opt/
+
+<span class="k">WORKDIR</span><span class="s"> /dist</span>
+<span class="k">RUN</span> <span class="o">{</span> ldd /dist/opt/app<span class="p">;</span> <span class="o">}</span> <span class="p">|</span> tr -s <span class="s1">&#39;[:blank:]&#39;</span> <span class="s1">&#39;\n&#39;</span> <span class="p">|</span> grep <span class="s1">&#39;^/&#39;</span> <span class="p">|</span> <span class="se">\</span>
+    xargs -I % sh -c <span class="s1">&#39;mkdir -p $(dirname ./%); cp % ./%;&#39;</span>
+
+<span class="k">FROM</span> <span class="s">scratch</span> <span class="k">as</span> <span class="s">final</span>
+<span class="k">COPY</span> --chown<span class="o">=</span><span class="m">0</span>:0 --from<span class="o">=</span>base /dist /
+<span class="k">COPY</span> --from<span class="o">=</span>base /etc/passwd /etc/passwd
+<span class="k">COPY</span> --from<span class="o">=</span>base /etc/group /etc/group
+
+<span class="k">USER</span><span class="s"> www-data</span>
+<span class="k">ENV</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>/lib/x86_64-linux-gnu:/lib64:/usr/lib/x86_64-linux-gnu
+<span class="k">CMD</span> <span class="p">[</span><span class="s2">&quot;/opt/app&quot;</span><span class="p">]</span>
+</code></pre></div>
+
+
+<p>Das Dockerfile besteht aus den zwei stages <code>base</code> und <code>final</code>. Im stage <code>base</code> wird der LDC compiler und zusätzliche Abhängigkeiten installiert. Danach wird die http server Anwendung kompiliert und nach <code>/dist/opt/</code> kopiert.
+Am Ende von stage <code>base</code> werden alle zusätzlichen Abhängigkeiten (Dynamische Bibliotheken) der 
+Anwendung ermittelt und in ein Unterverzeichnis von <code>/dist/</code> kopiert.</p>
+<p>Nur die Dateien, die sich im stage <code>final</code> befinden, werden auch im Docker image verfügbar sein.
+Der Inhalt von <code>/dist</code> wird aus dem <code>base</code> stage nach <code>final</code> kopiert.
+Um die Sicherheit weiter zu erhöhen, wird der Benutzer <code>www-data</code> gesetzt. Dies erfordert,
+das zuvor die Dateien <code>/etc/passwd</code> und <code>/etc/group</code> aus stage <code>base</code> nach <code>final</code> kopiert werden.</p>
+<p>Stage <code>final</code> endet mit der Angabe, unter welchen Pfaden die dynamischen Bibliotheken zu finden sind
+und die http server Anwendung wird als Docker image Startanwendung gesetzt.</p>
+<p>Öffne eine Kommandozeile und erstelle das Docker image mit <code>docker build</code>. Danach starte einen 
+container mit <code>docker run</code>:</p>
+<div class="codehilite"><pre><span></span><code>docker build -t sample .
+docker run -it --rm -p <span class="m">8080</span>:8080 sample
+</code></pre></div>
+
+
+<p>Öffne einen webbrowser. Der http server ist unter der Adresse <a href="http://localhost:8080">http://localhost:8080</a> erreichbar.</p>
+<h1 id="alpine-als-basis">Alpine als Basis</h1>
+<p>Im vorrigen Beispiel basierte der stage <code>base</code> auf der Linux Distribution <code>Ubuntu</code>.
+Statt dessen kann aber auch eine andere Linux Distribution, wie z.B. <code>Alpine</code> genommen werden.</p>
+<p>An dem Dockerfile ändern sich nur Kleinigkeiten. Die Paketverwaltung hat einen anderen Namen
+und auch die Pakete selbst heißen anders. Auch muss der Benutzer <code>www-data</code> und die dazu gehörige
+Gruppe <code>www-data</code> angelegt werden.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">FROM</span> <span class="s">alpine:3.12</span> <span class="k">as</span> <span class="s">base</span>
+
+<span class="k">RUN</span> apk add --update alpine-sdk ldc dub openssl-dev zlib-dev
+
+<span class="k">COPY</span> app.d /tmp
+<span class="k">RUN</span> dub build --single /tmp/app.d
+<span class="k">RUN</span> mkdir -p /dist/opt/ <span class="o">&amp;&amp;</span> cp /tmp/app /dist/opt/
+
+<span class="k">WORKDIR</span><span class="s"> /dist</span>
+<span class="k">RUN</span> <span class="o">{</span> ldd /dist/opt/app<span class="p">;</span> <span class="o">}</span> <span class="p">|</span> tr -s <span class="s1">&#39;[:blank:]&#39;</span> <span class="s1">&#39;\n&#39;</span> <span class="p">|</span> grep <span class="s1">&#39;^/&#39;</span> <span class="p">|</span> <span class="se">\</span>
+    xargs -I % sh -c <span class="s1">&#39;mkdir -p $(dirname ./%); cp % ./%;&#39;</span>
+
+<span class="k">RUN</span> <span class="nb">set</span> -x <span class="p">;</span> <span class="se">\</span>
+  addgroup -g <span class="m">82</span> -S www-data <span class="p">;</span> <span class="se">\</span>
+  adduser -u <span class="m">82</span> -D -S -G www-data www-data <span class="o">&amp;&amp;</span> <span class="nb">exit</span> <span class="m">0</span> <span class="p">;</span> <span class="nb">exit</span> <span class="m">1</span>
+
+<span class="k">FROM</span> <span class="s">scratch</span> <span class="k">as</span> <span class="s">final</span>
+<span class="k">COPY</span> --chown<span class="o">=</span><span class="m">0</span>:0 --from<span class="o">=</span>base /dist /
+<span class="k">COPY</span> --from<span class="o">=</span>base /etc/passwd /etc/passwd
+<span class="k">COPY</span> --from<span class="o">=</span>base /etc/group /etc/group
+
+<span class="k">USER</span><span class="s"> www-data</span>
+<span class="k">ENV</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>/lib/x86_64-linux-gnu:/lib64:/usr/lib/x86_64-linux-gnu
+<span class="k">CMD</span> <span class="p">[</span><span class="s2">&quot;/opt/app&quot;</span><span class="p">]</span>
+</code></pre></div></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>André Pany</small><br>
+        
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+        </p>
+
+        
+        
+    </footer>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../../../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/bash.min.js"></script>
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/d.min.js"></script>
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/dockerfile.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = "../../.."</script>
+    
+    <script src="../../../js/base.js"></script>
+    <script src="../../../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

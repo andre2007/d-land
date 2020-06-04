@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tutorials und mehr für die Programmiersprache D">
+    <meta name="author" content="André Pany">
+    <link rel="canonical" href="http://d-land.sepany.de/tutorials/gui/html5-anwendungen-mit-gtk3-schreiben/">
+    <link rel="shortcut icon" href="../../../img/favicon.ico">
+
+    
+    <title>HTML5 Anwendungen mit GTK3 schreiben - D-Land</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../../../css/base.min.css" rel="stylesheet">
+    <link href="../../../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css">
+        
+    
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            <a class="navbar-brand" href="../../..">D-Land</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../../..">Home</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tutorials <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../">Übersicht</a>
+</li>
+
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">Grundlagen</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../../grundlagen/">Übersicht</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../grundlagen/installation-dmd-kompiler-auf-windows/">Installation DMD Kompiler auf Windows</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../grundlagen/installation-ldc-auf-windows-subsystem-fuer-linux/">Installation LDC auf Windows Subsystem für Linux</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../grundlagen/coff-import-bibliotheken-erstellen/">Coff Import Bibliotheken erstellen</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">Cloud</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../../cloud/">Übersicht</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../cloud/native-aws-beanstalk-applikationen/">Native AWS Elastic Beanstalk Applikationen</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../cloud/sichere-docker-images-fuer-cloud-anwendungen-erstellen/">Sichere Docker images für cloud Anwendungen erstellen</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">Datenbanken</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../../datenbanken/">Übersicht</a>
+</li>
+
+        
+            
+<li >
+    <a href="../../datenbanken/sqlite-erste-schritte/">SQLite: Erste Schritte</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">Gui</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../">Übersicht</a>
+</li>
+
+        
+            
+<li class="active">
+    <a href="./">HTML5 Anwendungen mit GTK3 schreiben</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../../../about/">Über</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../">
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="next" href="../../../about/">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/andre2007/d-land/edit/master/docs/tutorials/gui/html5-anwendungen-mit-gtk3-schreiben.md"><i class="fab fa-github"></i> Edit on GitHub</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#html5-anwendungen-mit-gtk3-schreiben">HTML5 Anwendungen mit GTK3 schreiben</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="html5-anwendungen-mit-gtk3-schreiben">HTML5 Anwendungen mit GTK3 schreiben</h1>
+<p>GTK3 ist zwar primär für die Erstellung von Desktop Anwendungen gedacht,
+mit der Erweiterung <a href="https://developer.gnome.org/gtk3/stable/gtk-broadway.html">Broadway</a>
+lassen sich Anwendungen aber auch im Browser
+darstellen. Um Betriebssystem unabhängig zu sein, lassen wir Broadway und
+die GTK3 Anwendung in einem docker container laufen.</p>
+<p>Erstelle eine Datei <code>app.d</code> mit folgendem Inhalt:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">iimport</span> <span class="n">core</span><span class="p">.</span><span class="n">runtime</span> <span class="p">:</span> <span class="n">Runtime</span><span class="p">;</span>
+<span class="k">import</span> <span class="n">std</span><span class="p">.</span><span class="n">algorithm</span><span class="p">,</span> <span class="n">std</span><span class="p">.</span><span class="n">array</span><span class="p">,</span> <span class="n">std</span><span class="p">.</span><span class="n">conv</span><span class="p">;</span>
+<span class="k">import</span> <span class="n">gtk</span><span class="p">;</span>
+
+<span class="k">pragma</span><span class="p">(</span><span class="n">lib</span><span class="p">,</span> <span class="s">&quot;gtk-3&quot;</span><span class="p">);</span>
+<span class="k">pragma</span><span class="p">(</span><span class="n">lib</span><span class="p">,</span> <span class="s">&quot;glib-2.0&quot;</span><span class="p">);</span>
+<span class="k">pragma</span><span class="p">(</span><span class="n">lib</span><span class="p">,</span> <span class="s">&quot;pango-1.0&quot;</span><span class="p">);</span>
+<span class="k">pragma</span><span class="p">(</span><span class="n">lib</span><span class="p">,</span> <span class="s">&quot;gobject-2.0&quot;</span><span class="p">);</span>
+<span class="k">pragma</span><span class="p">(</span><span class="n">lib</span><span class="p">,</span> <span class="s">&quot;cairo&quot;</span><span class="p">);</span>
+<span class="k">pragma</span><span class="p">(</span><span class="n">lib</span><span class="p">,</span> <span class="s">&quot;atk-1.0&quot;</span><span class="p">);</span>
+<span class="k">pragma</span><span class="p">(</span><span class="n">lib</span><span class="p">,</span> <span class="s">&quot;gio-2.0&quot;</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="n">activate</span><span class="p">(</span><span class="n">GtkApplication</span><span class="p">*</span> <span class="n">app</span><span class="p">,</span> <span class="n">gpointer</span> <span class="n">user_data</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">GtkWidget</span><span class="p">*</span> <span class="n">window</span><span class="p">;</span>
+  <span class="n">window</span> <span class="p">=</span> <span class="n">gtk_application_window_new</span><span class="p">(</span><span class="n">app</span><span class="p">);</span>
+  <span class="n">gtk_window_set_title</span><span class="p">(</span> <span class="k">cast</span><span class="p">(</span><span class="n">GtkWindow</span><span class="p">*)</span> <span class="n">window</span><span class="p">,</span> <span class="s">&quot;Window&quot;</span><span class="p">);</span>
+  <span class="n">gtk_window_set_default_size</span><span class="p">(</span> <span class="k">cast</span><span class="p">(</span><span class="n">GtkWindow</span><span class="p">*)</span> <span class="n">window</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">);</span>
+  <span class="n">gtk_widget_show_all</span><span class="p">(</span><span class="n">window</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">GtkApplication</span><span class="p">*</span> <span class="n">app</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">status</span><span class="p">;</span>
+  <span class="n">app</span> <span class="p">=</span> <span class="n">gtk_application_new</span><span class="p">(</span><span class="s">&quot;org.gtk.example&quot;</span><span class="p">,</span> <span class="n">G_APPLICATION_FLAGS_NONE</span><span class="p">);</span>
+  <span class="n">g_signal_connect_object</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="s">&quot;activate&quot;</span><span class="p">,</span> <span class="k">cast</span><span class="p">(</span><span class="n">GCallback</span><span class="p">)</span> <span class="p">&amp;</span><span class="n">activate</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span> <span class="n">G_CONNECT_SWAPPED</span><span class="p">);</span>
+  <span class="n">status</span> <span class="p">=</span> <span class="n">g_application_run</span><span class="p">(</span><span class="k">cast</span><span class="p">(</span><span class="n">GApplication</span><span class="p">*)</span> <span class="n">app</span><span class="p">,</span> <span class="n">Runtime</span><span class="p">.</span><span class="n">cArgs</span><span class="p">.</span><span class="n">argc</span><span class="p">,</span> <span class="n">Runtime</span><span class="p">.</span><span class="n">cArgs</span><span class="p">.</span><span class="n">argv</span><span class="p">);</span>
+
+  <span class="n">g_object_unref</span><span class="p">(</span><span class="n">app</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">status</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>Dieses coding zeigt ein leeres Fenster an und ist eine
+Übersetzung von der <a href="https://developer.gnome.org/gtk3/stable/gtk-getting-started.html">C Beispiel Anwendung</a>
+nach D.</p>
+<p>Erstelle eine Datei <code>gtk.dpp</code> mit diesem Inhalt:</p>
+<div class="codehilite"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;gtk/gtk.h&gt;</span><span class="cp"></span>
+</code></pre></div>
+
+
+<p>Das Modul <code>gtk.dpp</code> ermöglicht den Zugriff auf die C header Dateien von GTK3.</p>
+<p>Erstelle eine Datei <code>Dockerfile</code> mit diesem Inhalt:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">FROM</span> <span class="s">dlang2/ldc-ubuntu:1.19.0</span> <span class="k">as</span> <span class="s">base</span>
+
+<span class="k">RUN</span> apt-get update <span class="o">&amp;&amp;</span> apt-get upgrade -y <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> apt-get install -y clang-9 libclang-9-dev libgtk-3-dev <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> apt-get clean <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> rm -rf /var/lib/apt/lists/*
+
+<span class="k">RUN</span> ln -s /usr/bin/clang-9 /usr/bin/clang
+
+<span class="k">COPY</span> gtk.dpp /tmp/
+
+<span class="k">RUN</span> <span class="nv">DFLAGS</span><span class="o">=</span><span class="s2">&quot;-L=-L/usr/lib/llvm-9/lib/&quot;</span> dub run dpp -- /tmp/gtk.dpp <span class="se">\</span>
+    --include-path /usr/include/gtk-3.0 <span class="se">\</span>
+    --include-path /usr/include/glib-2.0 <span class="se">\</span>
+    --include-path /usr/include/pango-1.0 <span class="se">\</span>
+    --include-path /usr/include/cairo <span class="se">\</span>
+    --include-path /usr/include/gdk-pixbuf-2.0 <span class="se">\</span>
+    --include-path /usr/include/atk-1.0 <span class="se">\</span>
+    --include-path /usr/lib/x86_64-linux-gnu/glib-2.0/include <span class="se">\</span>
+    --preprocess-only
+
+<span class="k">COPY</span> app.d /tmp/
+<span class="k">RUN</span> <span class="nv">DFLAGS</span><span class="o">=</span><span class="s2">&quot;-L=-L/usr/lib/x86_64-linux-gnu/&quot;</span> ldc2 /tmp/app.d /tmp/gtk.d -of<span class="o">=</span>/tmp/app
+
+<span class="c">###############################################################################</span>
+<span class="c">## final image</span>
+<span class="k">FROM</span> <span class="s">debian:buster-slim</span>
+
+<span class="k">RUN</span> apt-get update <span class="o">&amp;&amp;</span> apt-get upgrade -y <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> apt-get install -y libgtk-3-0 <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> apt-get clean <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> rm -rf /var/lib/apt/lists/*
+
+<span class="k">COPY</span> --from<span class="o">=</span>base /tmp/app /tmp/app
+<span class="k">COPY</span> start.sh /tmp/
+<span class="k">CMD</span> <span class="p">[</span><span class="s2">&quot;/tmp/start.sh&quot;</span><span class="p">]</span>
+</code></pre></div>
+
+
+<p>Das docker image wird in 2 Phasen gebaut.
+In Phase 1 wird <a href="https://code.dlang.org/packages/dpp">DPP</a> verwendet um aus den
+GTK3 C header Dateien ein D Modul <code>gtk.d</code> zu erzeugen.
+Dieser Schritt kann einige Minuten dauern.
+Das generierte Modul <code>gtk.d</code> wird zusammen mit dem
+Modul <code>app.d</code> zu einer ausführbaren Datei <code>/tmp/app</code> kompiliert.</p>
+<p>In Phase 2 wird die ausführbare Datei <code>/tmp/app</code> aus Phase 1 rüber kopiert
+und das shell script <code>start.sh</code> als container Startkommando gesetzt.</p>
+<p>Erstelle eine Datei <code>start.sh</code> mit diesem Inhalt:</p>
+<div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/sh</span>
+<span class="nb">export</span> GDK_BACKEND broadway
+broadwayd -p <span class="m">8889</span> :0 <span class="p">&amp;</span>
+/tmp/app
+</code></pre></div>
+
+
+<p>Das shell script <code>start.sh</code> setzt die Umgebungsvariable <code>GDK_BACKEND</code> auf <code>broadway</code>.
+Damit wird die HTML5 Ausgabe aktiviert. Die server Komponente <code>broadwayd</code> wird im
+Hintergrund gestartet. Zuletzt wird die eigentliche Anwendung <code>/tmp/app</code> gestartet.</p>
+<p>Baue das docker image mit dem Befehl:</p>
+<div class="codehilite"><pre><span></span><code>docker build -t t1 .
+</code></pre></div>
+
+
+<p>und starte danach einen container mit diesem Befehl:</p>
+<div class="codehilite"><pre><span></span><code>docker run -p <span class="m">8889</span>:8889 t1
+</code></pre></div>
+
+
+<p>Im browser kannst du die Anwendung unter der Adresse
+http://localhost:8889 aufrufen.</p></div>
+        
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        
+        <hr>
+        <p>
+        <small>André Pany</small><br>
+        
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+        </p>
+
+        
+        
+    </footer>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../../../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/bash.min.js"></script>
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/d.min.js"></script>
+                <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/languages/dockerfile.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = "../../.."</script>
+    
+    <script src="../../../js/base.js"></script>
+    <script src="../../../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>
